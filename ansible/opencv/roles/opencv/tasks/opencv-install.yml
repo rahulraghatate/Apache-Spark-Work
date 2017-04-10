@@ -1,0 +1,47 @@
+---
+# install  opencv-dependencies then download opencv from git
+
+- name: Install dependencies
+  sudo: yes
+  apt: "name='{{ item }}' state=installed update_cache=yes"
+  with_items:
+  - build-essential
+  - cmake
+  - git
+  - pkg-config
+  # Install libraries for various video formats
+  - libavcodec-dev
+  - libavformat-dev
+  - libswscale-dev
+  - libv4l-dev
+  # Install libraries for various image formats
+  - libjpeg8-dev
+  - libtiff4-dev
+  - libjasper-dev
+  - libpng12-dev
+  - libjpeg-dev
+  - libpng-dev
+  - libtiff-dev
+  # More packages
+  - libgtk2.0-dev
+  # python bindings
+  - python-dev
+  - python-numpy
+  - libtbb2
+  - libtbb-dev
+  - libdc1394-22-dev
+  # OpenCV dev lib
+  - libopencv-dev
+  - python-opencv
+  - python-pip
+  
+- name: Create directory for files
+  become: yes
+  file: path={{ opencv_workspace }} state=directory mode=0777
+
+- name: Clone OpenCV repository
+  become: yes
+  git: repo=https://github.com/Itseez/opencv.git dest={{ opencv_workspace }} clone=yes
+
+- name: change the working directory
+  command: chdir="{{ opencv_workspace }}" ls
