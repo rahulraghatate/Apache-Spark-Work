@@ -1,6 +1,0 @@
----
-- hosts: all_nodes
-  remote_user: root   # server user
-  roles:
-    # update
-    - opencv
