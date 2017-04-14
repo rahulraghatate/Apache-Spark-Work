@@ -1,4 +1,6 @@
 #!/bin/sh
-cm cluster nodes cluster-002|awk '{print $2 " " $1}'> ip_list
+echo [all_nodes]|cat > hosts
+cm cluster nodes cluster-001|awk '{print $2 }'> ip_list
 sed -i 's/$/ ansible_ssh_user=cc/' ip_list
-sed '/\[all_nodes\]/a ip_list hosts
+sed -i '/\[all_nodes\]/ r ip_list' hosts
+rm ip_list
