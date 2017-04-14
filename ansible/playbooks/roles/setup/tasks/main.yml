@@ -1,4 +1,0 @@
----
-- { include: install-ansible-dependencies.yml }
-- { include: opencv-install.yml, tags: ['opencv_install'] }
-- { include: opencv-config.yml, tags: ['opencv_config'] }

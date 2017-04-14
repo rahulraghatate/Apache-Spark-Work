@@ -2,5 +2,5 @@
 - hosts: all_nodes
   remote_user: true
   roles:
-    - update
-    - opencv
+    - remote_vms_update
+    - opencv_setup
