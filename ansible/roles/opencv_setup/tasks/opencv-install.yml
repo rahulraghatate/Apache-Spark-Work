@@ -1,0 +1,31 @@
+---
+# OpenCV setup on remote machines
+
+- name: Install dependencies
+  sudo: yes
+  apt: "name='{{ item }}' state=installed update_cache=yes"
+  with_items: '{{ local_packages }}'
+
+- name: Install video libraries
+  sudo: yes
+  apt: "name='{{ item }}' state=installed update_cache=yes"
+  with_items: '{{ video_packages }}'
+
+- name: Install image libraries
+  sudo: yes
+  apt: "name='{{ item }}' state=installed update_cache=yes"
+  with_items: '{{ image_packages }}'
+
+- name: Install python bindings
+  sudo: yes
+  apt: "name='{{ item }}' state=installed update_cache=yes"
+  with_items: '{{ python_bindings }}'
+
+- name: Install packages using pip
+  sudo: yes
+  pip: name=IMUtils state=latest
+
+- name: Install opencv_dev_libs
+  sudo: yes
+  apt: "name='{{ item }}' state=installed update_cache=yes"
+  with_items: '{{ open_cv_dev_lib }}'

@@ -9,7 +9,7 @@ sudo apt-get install ansible
 echo '###########################################################################################'
 echo '##### STEP 2 : Setup Local Environment for Cloudmesh_Client and setup hadoop cluster ######'
 echo '###########################################################################################'
-ansible-playbook env_setup.yaml --ask-sudo-pass -v
+ansible-playbook env_setup.yaml --ask-sudo-pass -vvvv
 echo '##########################################################################################'
 echo '####################### STEP 3 : Add newly created vms to host ############################'
 echo '###########################################################################################'

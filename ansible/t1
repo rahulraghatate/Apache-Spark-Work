@@ -1,0 +1,5 @@
+[all]
+rraghata-004 ansible_ssh_host="129.114.33.144" ansible_ssh_user="cc"
+rraghata-005 ansible_ssh_host="129.114.33.86" ansible_ssh_user="cc"
+rraghata-006 ansible_ssh_host="129.114.111.124" ansible_ssh_user="cc"
+rraghata-007 ansible_ssh_host="129.114.33.52" ansible_ssh_user="cc"

@@ -1,0 +1,53 @@
+---
+#tasks for local machine cloudmesh environment setup
+     - name: update/upgrade machine
+       apt: update-cache=yes upgrade=dist
+
+     - name: install build_essentials       
+       apt: name={{item}} state=present update_cache=yes
+       with_items: '{{ local_packages }}'
+
+     - name: pip upgrade
+       command: pip install --upgrade pip
+
+     - name: install python-dependency packages       
+       action: pip name={{item}} state=present
+       with_items: '{{ local_pip_packages }}'
+
+     - name: Check if cloudmesh directory already exists       
+       become_user: '{{ local_user_name }}'
+       stat: path={{ cm_path }}
+       register: cloudmesh_flag
+
+     - name: Install cloudmesh_client
+       become_user: '{{ local_user_name }}'
+       pip: name=cloudmesh_client state=latest
+       when: cloudmesh_flag.stat.exists == false
+
+     - name: create cloudmesh.yaml configuration file      
+       become_user: '{{ local_user_name }}'
+       command: cm setup
+       when: cloudmesh_flag.stat.exists == false
+
+     - name: cm reset for upgrading cloudmesh_client
+       become_user: '{{ local_user_name }}'
+       command: cm reset
+       when: cloudmesh_flag.stat.exists == true
+
+     - name: Uninstall cloudmesh_client  for re-install      
+       pip: name=cloudmesh_client state=absent
+       when: cloudmesh_flag.stat.exists == true
+
+     - name: install latest version of cloudmesh_client
+       pip: name=cloudmesh_client state=latest
+       when: cloudmesh_flag.stat.exists == true
+
+     - name: ssh key_check check for future authentication requirement      
+       stat: path={{ local_home }}{{ key_path }}
+       register: ssh_key_pub_flag
+
+     - name:  create new ssh key if previously doesn't exist       
+       shell: ssh-keygen -b 2048 -t rsa -f {{ local_home }}{{ rsa_pub_path }} -q -N ""
+       args:
+          creates: "{{ local_home }}{{rsa_pub_path}}"
+       when: ssh_key_pub_flag.stat.exists == false
